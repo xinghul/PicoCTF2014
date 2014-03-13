@@ -1,0 +1,12 @@
+extends layout
+
+block content
+	h1= title
+	form#formAddUser(name="addachievement", method="post", action="/addachievement")
+		input#inputPid(type="text", placeholder="aid", name="aid")
+		br
+		input#inputName(type="text", placeholder="name", name="name")
+		br
+		input#inputDesc(type="text", placeholder="desc", name="desc")
+		br
+		button#btnSubmit(type="Submit") Add

@@ -1,0 +1,20 @@
+extends layout
+
+block content
+	h1= title
+	form#formAddUser(name="addproblem", method="post", action="/addproblem")
+		input#inputPid(type="text", placeholder="pid", name="pid")
+		br
+		input#inputName(type="text", placeholder="type", name="type")
+		br
+		input#inputName(type="text", placeholder="name", name="name")
+		br
+		input#inputScore(type="text", placeholder="points", name="points")
+		br
+		input#inputDesc(type="text", placeholder="desc", name="desc")
+		br
+		input#inputDesc(type="text", placeholder="hint", name="hint")
+		br
+		input#inputDesc(type="text", placeholder="ans", name="ans")
+		br
+		button#btnSubmit(type="Submit") Add

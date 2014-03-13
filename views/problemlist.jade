@@ -1,0 +1,11 @@
+extends layout
+
+block content
+	h1= title
+	ul
+		each problem, i in problemlist
+			li
+				a(href="http://localhost:3000/problem?pid=" + problem.pid)
+					span= problem.pid 
+					| &nbsp
+					span= problem.name

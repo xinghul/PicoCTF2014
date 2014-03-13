@@ -1,0 +1,11 @@
+extends layout
+
+block content
+	h1= title
+	ul
+		each achievement, i in achievementlist
+			li
+				a(href="http://localhost:3000/achievement?aid=" + achievement.aid)
+					span= achievement.aid 
+					| &nbsp
+					span= achievement.name
