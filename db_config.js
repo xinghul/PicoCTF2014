@@ -83,6 +83,35 @@ var teamInfoSchema = mongoose.Schema({
 });
 
 
+var sessionSchema = mongoose.Schema({
+	eid: {
+		type: Number,
+		default: -1
+	},
+	aid: {
+		type: Number,
+		default: -1
+	},
+	tid: {
+		type: Number,
+		default: -1
+	},
+	pos: {
+		x: {
+			type: Number,
+			default: -1
+		},
+		y: {
+			type: Number,
+			default: -1
+		}
+	},
+	level: {
+		type: String,
+		default: ""
+	}
+});
+
 var achievementSchema = mongoose.Schema({
 	aid: {
 		type: Number,
@@ -114,3 +143,7 @@ exports.InitAchievementDB = function() {
 	return mongoose.model('Achievement', achievementSchema);
 }
 
+
+exports.InitSessionDB = function() {
+	return mongoose.model('Session', sessionSchema);
+}

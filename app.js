@@ -13,10 +13,12 @@ var app = express();
 var db_problem = require('./db_config').InitProblemDB();
 var db_team = require('./db_config').InitTeamDB();
 var db_achievement = require('./db_config').InitAchievementDB();
+var db_session = require('./db_config').InitSessionDB();
 
 var problem = require('./routes/problemAPI');
 var team = require('./routes/teamAPI');
 var achievement = require('./routes/achievementAPI');
+var session = require('./routes/sessionAPI');
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -58,6 +60,9 @@ app.post('/addproblem', problem.AddProblem(db_problem));
 app.get('/newachievement', routes.newachievement);
 app.get('/achievementlist', achievement.ShowAchievements(db_achievement));
 app.post('/addachievement', achievement.AddAchievement(db_achievement));
+
+app.get('/getsession', session.GetSession(db_session));
+app.get('/updatesession', session.UpdateSession(db_session));
 
 http.createServer(app).listen(app.get('port'), function(){
 	console.log('PicoCTF server listening on port ' + app.get('port'));
