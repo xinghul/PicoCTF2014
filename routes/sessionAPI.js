@@ -25,23 +25,25 @@ exports.GetSession = function(db) {
 exports.UpdateSession = function(db) {
 	return function(req, res) {
 		var aid = req.query.aid;
-		var data = JSON.stringify(req.query.data);
+		var data = req.body;
+		console.log(req.ip + ' : UpdateSession : ' + aid);
 		if ([undefined, null].indexOf(data.eid) != -1 ||
 			[undefined, null].indexOf(data.tid) != -1 ||
 			[undefined, null].indexOf(data.pos) != -1 ||
 			[undefined, null].indexOf(data.level) != -1) {
-			console.log(data);
+			console.log('Fail : Invalid arguments.');
 			res.send({success : 0, msg : "Invalid arguments."});
 			return;
 		}
 
 		db.findOne({aid : aid}, function (err, session) {
 			if (err | session != null) {
-				console.log(session);
+				console.log('Success : Update.');
 				session.eid = data.eid;
 				session.pos = data.pos;
 				session.level = data.level;
 				session.save();
+				res.send({success : 1, msg : "Update session successfully."});
 				return;
 			}
 			db.create({
@@ -54,10 +56,9 @@ exports.UpdateSession = function(db) {
 				if (err) {
 					console.log(err);
 					res.send({success : 0, msg : "Error occurs when updating the session."});
-					return;
 				} else {
-					res.location('getsession?aid=' + aid);
-					res.redirect('getsession?aid=' + aid);
+					console.log('Success : Add.');
+					res.send({success : 1, msg : "Add session successfully."});
 				}
 			});
 		});
