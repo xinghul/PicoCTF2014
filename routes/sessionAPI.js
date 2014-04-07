@@ -1,12 +1,12 @@
 exports.GetSession = function(db) {
 	return function(req, res) {
 		res.setHeader('Access-Control-Allow-Origin', '*');
-		var aid = req.query.aid;
-		if (!aid)
-			res.send({success : 0, msg : "Please specify the aid for the session."});
+		var username = req.query.u;
+		if (!username)
+			res.send({success : 0, msg : "Please specify the username for the session."});
 		else {
-			db.findOne({aid : aid}, function (err, session) {
-				console.log(req.ip + ' : GetSession : ' + aid);
+			db.findOne({username : username}, function (err, session) {
+				console.log(req.ip + ' : GetSession : ' + username);
 				if (!err)
 				{
 					console.log('Success.');
@@ -24,10 +24,11 @@ exports.GetSession = function(db) {
 
 exports.UpdateSession = function(db) {
 	return function(req, res) {
-		var aid = req.query.aid;
+		var username = req.query.u;
 		var data = req.body;
-		console.log(req.ip + ' : UpdateSession : ' + aid);
-		if ([undefined, null].indexOf(data.eid) != -1 ||
+		console.log(req.ip + ' : UpdateSession : ' + username);
+		if ([undefined, null].indexOf(data.aid) != -1 ||
+			[undefined, null].indexOf(data.eid) != -1 ||
 			[undefined, null].indexOf(data.tid) != -1 ||
 			[undefined, null].indexOf(data.pos) != -1 ||
 			[undefined, null].indexOf(data.level) != -1) {
@@ -36,9 +37,10 @@ exports.UpdateSession = function(db) {
 			return;
 		}
 
-		db.findOne({aid : aid}, function (err, session) {
+		db.findOne({username : username}, function (err, session) {
 			if (err | session != null) {
 				console.log('Success : Update.');
+				session.aid = data.aid;
 				session.eid = data.eid;
 				session.pos = data.pos;
 				session.level = data.level;
@@ -47,7 +49,8 @@ exports.UpdateSession = function(db) {
 				return;
 			}
 			db.create({
-				"aid" : aid,
+				"username" : username,
+				"aid" : data.aid,
 				"eid" : data.eid,
 				"tid" : data.tid,
 				"pos" : data.pos,

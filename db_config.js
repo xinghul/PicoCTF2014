@@ -84,6 +84,10 @@ var teamInfoSchema = mongoose.Schema({
 
 
 var sessionSchema = mongoose.Schema({
+	username: {
+		type: String,
+		default: ""
+	},
 	eid: {
 		type: Number,
 		default: -1
