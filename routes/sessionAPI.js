@@ -2,11 +2,11 @@ exports.GetSession = function(db) {
 	return function(req, res) {
 		res.setHeader('Access-Control-Allow-Origin', '*');
 		var username = req.query.u;
+		console.log(req.ip + ' : GetSession : ' + username);
 		if (!username)
 			res.send({success : 0, msg : "Please specify the username for the session."});
 		else {
 			db.findOne({username : username}, function (err, session) {
-				console.log(req.ip + ' : GetSession : ' + username);
 				if (!err)
 				{
 					console.log('Success.');
