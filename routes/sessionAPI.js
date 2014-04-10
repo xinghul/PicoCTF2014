@@ -28,6 +28,7 @@ exports.UpdateSession = function(db) {
 		var username = req.query.u;
 		var data = req.body;
 		console.log(req.ip + ' : UpdateSession : ' + username);
+		console.log(req.body);
 		if ([undefined, null].indexOf(data.aid) != -1 ||
 			[undefined, null].indexOf(data.eid) != -1 ||
 			[undefined, null].indexOf(data.tid) != -1 ||
