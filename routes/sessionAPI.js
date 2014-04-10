@@ -24,6 +24,7 @@ exports.GetSession = function(db) {
 
 exports.UpdateSession = function(db) {
 	return function(req, res) {
+		res.setHeader('Access-Control-Allow-Origin', '*');
 		var username = req.query.u;
 		var data = req.body;
 		console.log(req.ip + ' : UpdateSession : ' + username);
