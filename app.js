@@ -62,7 +62,7 @@ app.get('/achievementlist', achievement.ShowAchievements(db_achievement));
 app.post('/addachievement', achievement.AddAchievement(db_achievement));
 
 app.get('/getsession', session.GetSession(db_session));
-app.get('/updatesession', session.UpdateSession(db_session));
+app.post('/updatesession', session.UpdateSession(db_session));
 
 http.createServer(app).listen(app.get('port'), function(){
 	console.log('PicoCTF server listening on port ' + app.get('port'));
