@@ -45,6 +45,7 @@ exports.UpdateSession = function(db) {
 				session.aid = data.aid;
 				session.eid = data.eid;
 				session.pos = data.pos;
+				session.tid = data.tid;
 				session.level = data.level;
 				session.save();
 				res.send({success : 1, msg : "Update session successfully."});
