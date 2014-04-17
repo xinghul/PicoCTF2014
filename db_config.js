@@ -57,14 +57,12 @@ var teamSchema = mongoose.Schema({
 
 });
 var teammateSchema = mongoose.Schema({
-	name: {
+	username: {
 		type: String,
 		default: ""
 	},
-	gender: {
-		type: Boolean,
-		default: true
-	}
+	pdisplayed: [Number],
+	adisplayed: [Number]
 });
 
 var teamInfoSchema = mongoose.Schema({

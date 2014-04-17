@@ -41,6 +41,11 @@ app.use(function(req, res, next) {
 if ('development' == app.get('env')) {
 	app.use(express.errorHandler());
 }
+app.get('/*', function(req, res, next){
+	res.setHeader('Last-Modified', (new Date()).toUTCString());
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	next();
+});
 
 app.get('/', routes.index);
 app.get('/users', user.list);
@@ -63,6 +68,9 @@ app.post('/addachievement', achievement.AddAchievement(db_achievement));
 
 app.get('/getsession', session.GetSession(db_session));
 app.post('/updatesession', session.UpdateSession(db_session));
+
+app.post('/problemdisplayed', team.ProblemDisplayed(db_team, db_problem));
+app.post('/achievementdisplayed', team.AchievementDisplayed(db_team, db_achievement));
 
 http.createServer(app).listen(app.get('port'), function(){
 	console.log('PicoCTF server listening on port ' + app.get('port'));
