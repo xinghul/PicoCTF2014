@@ -1,3 +1,14 @@
+var mongoose = require('mongoose');
+var teammateSchema = mongoose.Schema({
+	username: {
+		type: String,
+		default: ""
+	},
+	pdisplayed: [Number],
+	adisplayed: [Number]
+});
+
+var Teammate = mongoose.model("Teammate", teammateSchema);
 exports.GetTeam = function(db) {
 	return function(req, res) {
 		res.setHeader('Access-Control-Allow-Origin', '*');
@@ -30,17 +41,28 @@ exports.ClearRecords = function(db) {
 		else {
 			db.findOne({tid : tid}, function(err, team) {
 				if (!err) {
+					if ([undefined, null].indexOf(team) != -1) {
+						console.log('Fail.');
+						res.send({success : 0, msg : "Team " + tid + " does not exist!"});
+						return;
+					}
 					console.log('Success.');
 					team.problemsolved = [];
 					team.achievements = [];
 					team.points = 0;
 					for (var i = 0; i < team.teammates.length; i ++)
 					{
-						team.teammates[i].adisplayed = [];
-						team.teammates[i].pdisplayed = [];
+						team.teammates[i] = new Teammate({pdisplayed:[], adisplayed:[], username:team.teammates[i].username});
+						team.teammates[i].save();
 					}
-					team.save();
-					res.send({success : 1, msg : "Successful clear the team records."});
+
+					team.save(function(err) {
+						if (!err) 
+							res.send({success : 1, msg : "Successful clear the team records."});
+						else
+							res.send({success : 0, msg : err});
+					});
+					
 				}
 				else {
 					console.log('Fail.');
