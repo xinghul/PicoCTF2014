@@ -46,6 +46,11 @@ app.get('/*', function(req, res, next){
 	res.setHeader('Access-Control-Allow-Origin', '*');
 	next();
 });
+app.post('/*', function(req, res, next){
+	res.setHeader('Last-Modified', (new Date()).toUTCString());
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	next();
+});
 
 app.get('/', routes.index);
 app.get('/users', user.list);
