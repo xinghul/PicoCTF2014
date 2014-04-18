@@ -1,14 +1,12 @@
 var request = require("request");
  
 request({
-	uri: "http://localhost:3000/updatesession?u=1",
+	uri: "http://localhost:3000/problemdisplayed",
 	method: "POST",
 	form: {
-		eid:"1",
-		tid:"2",
-		aid:"3",
-		pos:{x:30, y:30},
-		level:"level2"
+		pid: 3,
+		tid: 1,
+		username: "user1"
 	}}, function(error, response, body) {
   		console.log(body);
 });

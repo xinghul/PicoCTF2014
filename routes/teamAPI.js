@@ -13,7 +13,8 @@ exports.GetTeam = function(db) {
 				}
 				else {
 					console.log('Fail.');
-					res.send({success : 0, msg : "These's an error while retrieving the team info."});
+					console.log(err);
+					res.send({success : 0, msg : err});
 				}
 			});
 		}
@@ -22,22 +23,29 @@ exports.GetTeam = function(db) {
 
 exports.ClearRecords = function(db) {
 	return function(req, res) {
-		res.setHeader('Access-Control-Allow-Origin', '*');
 		var tid = req.query.tid;
+		console.log(req.ip + ' : ClearRecords : ' + tid);
 		if (!tid)
 			res.send({success : 0, msg : "Please specify the tid for the team."});
 		else {
-			console.log(req.ip + ' : ClearRecords : ' + tid);
-			db.update({tid : tid}, {$set : {achievements : [], problemsolved : [], points : 0}}, function(err, doc) {
-				if (!err)
-				{
+			db.findOne({tid : tid}, function(err, team) {
+				if (!err) {
 					console.log('Success.');
+					team.problemsolved = [];
+					team.achievements = [];
+					team.points = 0;
+					for (var i = 0; i < team.teammates.length; i ++)
+					{
+						team.teammates[i].adisplayed = [];
+						team.teammates[i].pdisplayed = [];
+					}
+					team.save();
 					res.send({success : 1, msg : "Successful clear the team records."});
 				}
-				else 
-				{
+				else {
 					console.log('Fail.');
-					res.send({success : 0, msg : "These's an error while clearing the team records."});
+					console.log(err);
+					res.send({success : 0, msg : err});
 				}
 			});
 		}
@@ -103,7 +111,7 @@ exports.ProblemDisplayed = function(db_team, db_problem) {
 				return;
 			}
 
-			db_team.update({tid : data.tid, 'teammates.username' : data.username}, {'$addToSet' : {'teammates.$pdisplayed' : data.pid}}, function(err, count) {
+			db_team.update({tid : data.tid, 'teammates.username' : data.username}, {'$addToSet' : {'teammates.$.pdisplayed' : parseInt(data.pid)}}, function(err, count) {
 				if (err) {
 					res.send({success : 0, msg : err});
 					return;
@@ -177,7 +185,7 @@ exports.AchievementDisplayed = function(db_team, db_achievement) {
 				return;
 			}
 
-			db_team.update({tid : data.tid, 'teammates.username' : data.username}, {'$addToSet' : {'teammates.$adisplayed' : data.aid}}, function(err, count) {
+			db_team.update({tid : data.tid, 'teammates.username' : data.username}, {'$addToSet' : {'teammates.$.adisplayed' : parseInt(data.aid)}}, function(err, count) {
 				if (err) {
 					res.send({success : 0, msg : err});
 					return;
