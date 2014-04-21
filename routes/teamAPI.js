@@ -1,14 +1,3 @@
-var mongoose = require('mongoose');
-var teammateSchema = mongoose.Schema({
-	username: {
-		type: String,
-		default: ""
-	},
-	pdisplayed: [Number],
-	adisplayed: [Number]
-});
-
-var Teammate = mongoose.model("Teammate", teammateSchema);
 exports.GetTeam = function(db) {
 	return function(req, res) {
 		res.setHeader('Access-Control-Allow-Origin', '*');
@@ -47,20 +36,15 @@ exports.ClearRecords = function(db) {
 						return;
 					}
 					console.log('Success.');
-					team.problemsolved = [];
-					team.achievements = [];
-					team.points = 0;
-					for (var i = 0; i < team.teammates.length; i ++)
-					{
-						team.teammates[i] = new Teammate({pdisplayed:[], adisplayed:[], username:team.teammates[i].username});
-						team.teammates[i].save();
-					}
-
-					team.save(function(err) {
-						if (!err) 
-							res.send({success : 1, msg : "Successful clear the team records."});
-						else
+					var name = team.name;
+					db.create({tid:tid, name:name, teammates:[{username:'user1', pdisplayed:[], adisplayed:[]}, {username:'user2', pdisplayed:[], adisplayed:[]}]}, function (err, newTeam) {
+						if (!err) {
+							team.remove();
+							res.send({success : 1, msg : "Records of team " + tid + " cleared!"});
+						}
+						else {
 							res.send({success : 0, msg : err});
+						}
 					});
 					
 				}
