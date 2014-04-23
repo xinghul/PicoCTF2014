@@ -10,10 +10,11 @@ var http = require('http');
 var path = require('path');
 var app = express();
 
-var db_problem = require('./db_config').InitProblemDB();
-var db_team = require('./db_config').InitTeamDB();
-var db_achievement = require('./db_config').InitAchievementDB();
-var db_session = require('./db_config').InitSessionDB();
+var Problem = require('./db_config').GetProblem();
+var Team = require('./db_config').GetTeam();
+var Achievement = require('./db_config').GetAchievement();
+var Session = require('./db_config').GetSession();
+var Teammate = require('./db_config').GetTeammate();
 
 var problem = require('./routes/problemAPI');
 var team = require('./routes/teamAPI');
@@ -55,27 +56,27 @@ app.post('/*', function(req, res, next){
 app.get('/', routes.index);
 app.get('/users', user.list);
 
-app.get('/problem', problem.GetProblem(db_problem));
-app.get('/team', team.GetTeam(db_team));
-app.get('/achievement', achievement.GetAchievement(db_achievement));
+app.get('/problem', problem.GetProblem(Problem));
+app.get('/team', team.GetTeam(Team));
+app.get('/achievement', achievement.GetAchievement(Achievement));
 
-app.get('/problemsolved', team.ProblemSolve(db_team, db_problem));
-app.get('/achievementunlocked', team.AchievementUnlock(db_team, db_achievement));
-app.get('/clearrecords', team.ClearRecords(db_team));
+app.post('/problemsolved', team.ProblemSolve(Team, Problem));
+app.post('/achievementunlocked', team.AchievementUnlock(Team, Achievement));
+app.post('/clearrecords', team.ClearRecords(Team, Teammate));
 
 app.get('/newproblem', routes.newproblem);
-app.get('/problemlist', problem.ShowProblems(db_problem));
-app.post('/addproblem', problem.AddProblem(db_problem));
+app.get('/problemlist', problem.ShowProblems(Problem));
+app.post('/addproblem', problem.AddProblem(Problem));
 
 app.get('/newachievement', routes.newachievement);
-app.get('/achievementlist', achievement.ShowAchievements(db_achievement));
-app.post('/addachievement', achievement.AddAchievement(db_achievement));
+app.get('/achievementlist', achievement.ShowAchievements(Achievement));
+app.post('/addachievement', achievement.AddAchievement(Achievement));
 
-app.get('/getsession', session.GetSession(db_session));
-app.post('/updatesession', session.UpdateSession(db_session));
+app.get('/getsession', session.GetSession(Session));
+app.post('/updatesession', session.UpdateSession(Session));
 
-app.post('/problemdisplayed', team.ProblemDisplayed(db_team, db_problem));
-app.post('/achievementdisplayed', team.AchievementDisplayed(db_team, db_achievement));
+app.post('/problemdisplayed', team.ProblemDisplayed(Team, Problem));
+app.post('/achievementdisplayed', team.AchievementDisplayed(Team, Achievement));
 
 http.createServer(app).listen(app.get('port'), function(){
 	console.log('PicoCTF server listening on port ' + app.get('port'));

@@ -133,19 +133,22 @@ var achievementSchema = mongoose.Schema({
 
 
 
-exports.InitProblemDB = function() {
+exports.GetProblem = function() {
 	return mongoose.model('Problem', problemSchema);
 };
 
-exports.InitTeamDB = function() {
+exports.GetTeam = function() {
 	return mongoose.model('Team', teamSchema);
 };
 
-exports.InitAchievementDB = function() {
+exports.GetTeammate = function() {
+	return mongoose.model('Teammate', teammateSchema);
+};
+
+exports.GetAchievement = function() {
 	return mongoose.model('Achievement', achievementSchema);
-}
+};
 
-
-exports.InitSessionDB = function() {
+exports.GetSession = function() {
 	return mongoose.model('Session', sessionSchema);
-}
+};

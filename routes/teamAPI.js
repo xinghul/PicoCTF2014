@@ -1,19 +1,17 @@
-exports.GetTeam = function(db) {
+exports.GetTeam = function(Team) {
 	return function(req, res) {
-		res.setHeader('Access-Control-Allow-Origin', '*');
 		var tid = req.query.tid;
 		if (!tid)
 			res.send({success : 0, msg : "Please specify the tid for the team."});
 		else {
 			console.log(req.ip + ' : GetTeam : ' + tid);
-			db.findOne({tid : tid}, function (err, team) {
+			Team.findOne({tid : tid}, function (err, team) {
 				if (!err) {
 					console.log('Success.');
 					res.send(team);
 				}
 				else {
-					console.log('Fail.');
-					console.log(err);
+					console.log('Fail : ' + err);
 					res.send({success : 0, msg : err});
 				}
 			});
@@ -21,14 +19,14 @@ exports.GetTeam = function(db) {
 	};
 };
 
-exports.ClearRecords = function(db) {
+exports.ClearRecords = function(Team, Teammate) {
 	return function(req, res) {
-		var tid = req.query.tid;
+		var tid = req.body.tid;
 		console.log(req.ip + ' : ClearRecords : ' + tid);
 		if (!tid)
 			res.send({success : 0, msg : "Please specify the tid for the team."});
 		else {
-			db.findOne({tid : tid}, function(err, team) {
+			Team.findOne({tid : tid}, function(err, team) {
 				if (!err) {
 					if ([undefined, null].indexOf(team) != -1) {
 						console.log('Fail.');
@@ -37,7 +35,10 @@ exports.ClearRecords = function(db) {
 					}
 					console.log('Success.');
 					var name = team.name;
-					db.create({tid:tid, name:name, teammates:[{username:'user1', pdisplayed:[], adisplayed:[]}, {username:'user2', pdisplayed:[], adisplayed:[]}]}, function (err, newTeam) {
+					var teammates = [];
+					for (var i = 1; i <= 6; i ++)
+						teammates.push(new Teammate({username:'user' + i}));
+					Team.create({tid:tid, name:name, teammates:teammates}, function (err, newTeam) {
 						if (!err) {
 							team.remove();
 							res.send({success : 1, msg : "Records of team " + tid + " cleared!"});
@@ -49,8 +50,7 @@ exports.ClearRecords = function(db) {
 					
 				}
 				else {
-					console.log('Fail.');
-					console.log(err);
+					console.log('Fail : ' + err);
 					res.send({success : 0, msg : err});
 				}
 			});
@@ -58,15 +58,14 @@ exports.ClearRecords = function(db) {
 	};
 };
 
-exports.ProblemSolve = function(db, db_problem) {
+exports.ProblemSolve = function(Team, Problem) {
 	return function(req, res) {
-		res.setHeader('Access-Control-Allow-Origin', '*');
-		var tid = req.query.tid;
-		var pid = req.query.pid;
+		var tid = req.body.tid;
+		var pid = req.body.pid;
 		if (!tid || !pid)
 			res.send({success : 0, msg : "invalid parameters"});
 		else {
-			db_problem.findOne({pid : pid}, function (err, problem) {
+			Problem.findOne({pid : pid}, function (err, problem) {
 				if (err) {
 					res.send({success : 0, msg : "These's an error while retrieving the problem info."});
 					return;
@@ -76,7 +75,7 @@ exports.ProblemSolve = function(db, db_problem) {
 					return;
 				}
 				var points = problem.points;
-				db.findOne({tid : tid}, function (err, team) {
+				Team.findOne({tid : tid}, function (err, team) {
 					if (err) {
 						res.send({success : 0, msg : "These's an error while updating the team info."});
 						return;
@@ -95,7 +94,7 @@ exports.ProblemSolve = function(db, db_problem) {
 	};
 };
 
-exports.ProblemDisplayed = function(db_team, db_problem) {
+exports.ProblemDisplayed = function(Team, Problem) {
 	return function(req, res) {
 		var data = req.body;
 		console.log(req.ip + ' : ProblemDisplayed');
@@ -107,7 +106,7 @@ exports.ProblemDisplayed = function(db_team, db_problem) {
 			res.send({success : 0, msg : "Invalid arguments."});
 			return;
 		}
-		db_problem.findOne({pid : data.pid}, function(err, problem) {
+		Problem.findOne({pid : data.pid}, function(err, problem) {
 			if (err) {
 				res.send({success : 0, msg : "Error occurs validating the problem info."});
 				return;
@@ -117,7 +116,7 @@ exports.ProblemDisplayed = function(db_team, db_problem) {
 				return;
 			}
 
-			db_team.update({tid : data.tid, 'teammates.username' : data.username}, {'$addToSet' : {'teammates.$.pdisplayed' : parseInt(data.pid)}}, function(err, count) {
+			Team.update({tid : data.tid, 'teammates.username' : data.username}, {'$addToSet' : {'teammates.$.pdisplayed' : parseInt(data.pid)}}, function(err, count) {
 				if (err) {
 					res.send({success : 0, msg : err});
 					return;
@@ -131,16 +130,15 @@ exports.ProblemDisplayed = function(db_team, db_problem) {
 	};
 };
 
-exports.AchievementUnlock = function(db, db_achievement) {
+exports.AchievementUnlock = function(Team, Achievement) {
 	return function(req, res) {
-		res.setHeader('Access-Control-Allow-Origin', '*');
-		var tid = req.query.tid;
-		var aid = req.query.aid;
+		var tid = req.body.tid;
+		var aid = req.body.aid;
 		if (!aid || !tid)
 			res.send({success : 0, msg : "invalid parameters"});
 		else {
 			console.log(req.ip + ' : AchievementUnlock : ' + tid + ' : ' + aid);
-			db_achievement.findOne({aid : aid}, function (err, achievement) {
+			Achievement.findOne({aid : aid}, function (err, achievement) {
 				if (err) {
 					res.send({success : 0, msg : "These's an error while retrieving the achievement info."});
 					return;
@@ -149,7 +147,7 @@ exports.AchievementUnlock = function(db, db_achievement) {
 					res.send({success : 0, msg : "Achievement does not exist."});
 					return;
 				}
-				db.findOne({tid : tid}, function (err, team) {
+				Team.findOne({tid : tid}, function (err, team) {
 					if (err) {
 						res.send({success : 0, msg : "These's an error while updating the team info."});
 						return;
@@ -169,7 +167,7 @@ exports.AchievementUnlock = function(db, db_achievement) {
 	};
 };
 
-exports.AchievementDisplayed = function(db_team, db_achievement) {
+exports.AchievementDisplayed = function(Team, Achievement) {
 	return function(req, res) {
 		var data = req.body;
 		console.log(req.ip + ' : AchievementDisplayed');
@@ -181,7 +179,7 @@ exports.AchievementDisplayed = function(db_team, db_achievement) {
 			res.send({success : 0, msg : "Invalid arguments."});
 			return;
 		}
-		db_achievement.findOne({aid : data.aid}, function(err, achievement) {
+		Achievement.findOne({aid : data.aid}, function(err, achievement) {
 			if (err) {
 				res.send({success : 0, msg : "Error occurs validating the achievement info."});
 				return;
@@ -191,7 +189,7 @@ exports.AchievementDisplayed = function(db_team, db_achievement) {
 				return;
 			}
 
-			db_team.update({tid : data.tid, 'teammates.username' : data.username}, {'$addToSet' : {'teammates.$.adisplayed' : parseInt(data.aid)}}, function(err, count) {
+			Team.update({tid : data.tid, 'teammates.username' : data.username}, {'$addToSet' : {'teammates.$.adisplayed' : parseInt(data.aid)}}, function(err, count) {
 				if (err) {
 					res.send({success : 0, msg : err});
 					return;
