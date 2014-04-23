@@ -1,11 +1,11 @@
-exports.GetSession = function(db) {
+exports.GetSession = function(Session) {
 	return function(req, res) {
 		var username = req.query.u;
 		console.log(req.ip + ' : GetSession : ' + username);
 		if (!username)
 			res.send({success : 0, msg : "Please specify the username for the session."});
 		else {
-			db.findOne({username : username}, function (err, session) {
+			Session.findOne({username : username}, function (err, session) {
 				if (!err)
 				{
 					console.log('Success.');
@@ -21,7 +21,7 @@ exports.GetSession = function(db) {
 	};
 };
 
-exports.UpdateSession = function(db) {
+exports.UpdateSession = function(Session) {
 	return function(req, res) {
 		var username = req.body.username;
 		var data = req.body;
@@ -37,7 +37,7 @@ exports.UpdateSession = function(db) {
 			return;
 		}
 
-		db.findOne({username : username}, function (err, session) {
+		Session.findOne({username : username}, function (err, session) {
 			if (err | session != null) {
 				console.log('Success : Update.');
 				session.aid = data.aid;
@@ -49,7 +49,7 @@ exports.UpdateSession = function(db) {
 				res.send({success : 1, msg : "Update session successfully."});
 				return;
 			}
-			db.create({
+			Session.create({
 				"username" : username,
 				"aid" : data.aid,
 				"eid" : data.eid,

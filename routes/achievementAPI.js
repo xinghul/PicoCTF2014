@@ -1,12 +1,11 @@
-exports.GetAchievement = function(db) {
+exports.GetAchievement = function(Achievement) {
 	return function(req, res) {
-		res.setHeader('Access-Control-Allow-Origin', '*');
 		var aid = req.query.aid;
 		console.log(aid);
 		if (!aid)
 			res.send("Please specify the aid for the achievement.");
 		else {
-			db.findOne({aid : aid}, function (err, achievement) {
+			Achievement.findOne({aid : aid}, function (err, achievement) {
 				console.log(achievement);
 				if (!err)
 					res.send(achievement);
@@ -17,18 +16,18 @@ exports.GetAchievement = function(db) {
 	};
 };
 
-exports.AddAchievement = function(db) {
+exports.AddAchievement = function(Achievement) {
 	return function(req, res) {
 		var aid = req.body.aid;
 		var name = req.body.name;
 		var desc = req.body.desc;
 
-		db.findOne({aid : aid}, function (err, achievement) {
+		Achievement.findOne({aid : aid}, function (err, achievement) {
 			if (err | achievement != null) {
 				res.send({success : 0, msg : "Achievement already exists."});
 				return;
 			}
-			db.create({
+			Achievement.create({
 				"aid" : aid,
 				"name" : name,
 				"desc" : desc
@@ -47,9 +46,9 @@ exports.AddAchievement = function(db) {
 };
 
 
-exports.ShowAchievements = function(db) {
+exports.ShowAchievements = function(Achievement) {
 	return function(req, res) {
-		db.find({}, {}, function(e, achievements) {
+		Achievement.find({}, {}, function(e, achievements) {
 			res.render('achievementlist', {
 				'title' : 'Achievement List',
 				'achievementlist' : achievements

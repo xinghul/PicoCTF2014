@@ -1,11 +1,11 @@
-exports.GetProblem = function(db) {
+exports.GetProblem = function(Problem) {
 	return function(req, res) {
 		res.setHeader('Access-Control-Allow-Origin', '*');
 		var pid = req.query.pid;
 		if (!pid)
 			res.send({success : 0, msg : "Please specify the pid for the problem."});
 		else {
-			db.findOne({pid : pid}, function (err, problem) {
+			Problem.findOne({pid : pid}, function (err, problem) {
 				console.log(req.ip + ' : GetProblem : ' + pid);
 				if (!err)
 				{
@@ -22,7 +22,7 @@ exports.GetProblem = function(db) {
 	};
 };
 
-exports.AddProblem = function(db) {
+exports.AddProblem = function(Problem) {
 	return function(req, res) {
 		var pid = req.body.pid;
 		var type = req.body.type;
@@ -32,12 +32,12 @@ exports.AddProblem = function(db) {
 		var hint = req.body.hint;
 		var ans = req.body.ans;
 
-		db.findOne({pid : pid}, function (err, problem) {
+		Problem.findOne({pid : pid}, function (err, problem) {
 			if (err | problem != null) {
 				res.send({success : 0, msg : "Problem already exists."});
 				return;
 			}
-			db.create({
+			Problem.create({
 				"pid" : pid,
 				"type" : type,
 				"name" : name,
@@ -60,9 +60,9 @@ exports.AddProblem = function(db) {
 };
 
 
-exports.ShowProblems = function(db) {
+exports.ShowProblems = function(Problem) {
 	return function(req, res) {
-		db.find({}, {}, function(e, problems) {
+		Problem.find({}, {}, function(e, problems) {
 			res.render('problemlist', {
 				'title' : 'Problem List',
 				'problemlist' : problems
