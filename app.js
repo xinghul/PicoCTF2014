@@ -67,6 +67,7 @@ app.post('/clearrecords', team.ClearRecords(Team, Teammate));
 app.get('/newproblem', routes.newproblem);
 app.get('/problemlist', problem.ShowProblems(Problem));
 app.post('/addproblem', problem.AddProblem(Problem));
+app.get('/removeproblem', problem.RemoveProblem(Problem));
 
 app.get('/newachievement', routes.newachievement);
 app.get('/achievementlist', achievement.ShowAchievements(Achievement));

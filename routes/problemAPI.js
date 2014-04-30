@@ -1,12 +1,11 @@
 exports.GetProblem = function(Problem) {
 	return function(req, res) {
-		res.setHeader('Access-Control-Allow-Origin', '*');
 		var pid = req.query.pid;
+		console.log(req.ip + ' : GetProblem : ' + pid);
 		if (!pid)
 			res.send({success : 0, msg : "Please specify the pid for the problem."});
 		else {
 			Problem.findOne({pid : pid}, function (err, problem) {
-				console.log(req.ip + ' : GetProblem : ' + pid);
 				if (!err)
 				{
 					console.log('Success.');
@@ -16,6 +15,29 @@ exports.GetProblem = function(Problem) {
 				{
 					console.log('Fail.');
 					res.send({success : 0, msg : "These's an error while retrieving the problem info."});
+				}
+			});
+		}
+	};
+};
+
+exports.RemoveProblem = function(Problem) {
+	return function(req, res) {
+		var pid = req.query.pid;
+		console.log(req.ip + ' : RemoveProblem : ' + pid);
+		if (!pid)
+			res.send({success : 0, msg : "Please specify the pid for the problem."});
+		else {
+			Problem.remove({pid : pid}, function (err, problem) {
+				if (!err)
+				{
+					console.log('Success.');
+					res.send({success : 1, msg : "Successfully removed problem " + pid + "."});
+				}
+				else 
+				{
+					console.log('Fail.');
+					res.send({success : 0, msg : "Error occurs while removing the problem info."});
 				}
 			});
 		}
