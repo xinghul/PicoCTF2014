@@ -9,7 +9,7 @@ var problemSchema = mongoose.Schema({
 	pid: {
 		type: Number,
 		min: 1,
-		max: 60,
+		max: 200,
 		default: -1
 	},
 	type: {
