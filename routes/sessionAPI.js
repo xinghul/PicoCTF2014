@@ -1,5 +1,7 @@
 exports.GetSession = function(Session) {
 	return function(req, res) {
+		res.setHeader('Last-Modified', (new Date()).toUTCString());
+		res.setHeader('Access-Control-Allow-Origin', '*');
 		var username = req.query.u;
 		console.log(req.ip + ' : GetSession : ' + username);
 		if (!username)
@@ -23,6 +25,8 @@ exports.GetSession = function(Session) {
 
 exports.UpdateSession = function(Session) {
 	return function(req, res) {
+		res.setHeader('Last-Modified', (new Date()).toUTCString());
+		res.setHeader('Access-Control-Allow-Origin', '*');
 		var username = req.body.username;
 		var data = req.body;
 		console.log(req.ip + ' : UpdateSession : ' + username);

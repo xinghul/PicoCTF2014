@@ -1,5 +1,7 @@
 exports.GetAchievement = function(Achievement) {
 	return function(req, res) {
+		res.setHeader('Last-Modified', (new Date()).toUTCString());
+		res.setHeader('Access-Control-Allow-Origin', '*');
 		var aid = req.query.aid;
 		console.log(aid);
 		if (!aid)
@@ -18,6 +20,8 @@ exports.GetAchievement = function(Achievement) {
 
 exports.AddAchievement = function(Achievement) {
 	return function(req, res) {
+		res.setHeader('Last-Modified', (new Date()).toUTCString());
+		res.setHeader('Access-Control-Allow-Origin', '*');
 		var aid = req.body.aid;
 		var name = req.body.name;
 		var desc = req.body.desc;
@@ -48,6 +52,8 @@ exports.AddAchievement = function(Achievement) {
 
 exports.ShowAchievements = function(Achievement) {
 	return function(req, res) {
+		res.setHeader('Last-Modified', (new Date()).toUTCString());
+		res.setHeader('Access-Control-Allow-Origin', '*');
 		Achievement.find({}, {}, function(e, achievements) {
 			res.render('achievementlist', {
 				'title' : 'Achievement List',

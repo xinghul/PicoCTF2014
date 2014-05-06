@@ -1,5 +1,7 @@
 exports.GetProblem = function(Problem) {
 	return function(req, res) {
+		res.setHeader('Last-Modified', (new Date()).toUTCString());
+		res.setHeader('Access-Control-Allow-Origin', '*');
 		var pid = req.query.pid;
 		console.log(req.ip + ' : GetProblem : ' + pid);
 		if (!pid)
@@ -23,6 +25,8 @@ exports.GetProblem = function(Problem) {
 
 exports.RemoveProblem = function(Problem) {
 	return function(req, res) {
+		res.setHeader('Last-Modified', (new Date()).toUTCString());
+		res.setHeader('Access-Control-Allow-Origin', '*');
 		var pid = req.query.pid;
 		console.log(req.ip + ' : RemoveProblem : ' + pid);
 		if (!pid)
@@ -46,6 +50,8 @@ exports.RemoveProblem = function(Problem) {
 
 exports.AddProblem = function(Problem) {
 	return function(req, res) {
+		res.setHeader('Last-Modified', (new Date()).toUTCString());
+		res.setHeader('Access-Control-Allow-Origin', '*');
 		var pid = req.body.pid;
 		var type = req.body.type;
 		var name = req.body.name;
@@ -84,6 +90,8 @@ exports.AddProblem = function(Problem) {
 
 exports.ShowProblems = function(Problem) {
 	return function(req, res) {
+		res.setHeader('Last-Modified', (new Date()).toUTCString());
+		res.setHeader('Access-Control-Allow-Origin', '*');
 		Problem.find({}, {}, function(e, problems) {
 			res.render('problemlist', {
 				'title' : 'Problem List',

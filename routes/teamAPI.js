@@ -1,5 +1,7 @@
 exports.GetTeam = function(Team) {
 	return function(req, res) {
+		res.setHeader('Last-Modified', (new Date()).toUTCString());
+		res.setHeader('Access-Control-Allow-Origin', '*');
 		var tid = req.query.tid;
 		if (!tid)
 			res.send({success : 0, msg : "Please specify the tid for the team."});
@@ -21,6 +23,8 @@ exports.GetTeam = function(Team) {
 
 exports.ClearRecords = function(Team, Teammate) {
 	return function(req, res) {
+		res.setHeader('Last-Modified', (new Date()).toUTCString());
+		res.setHeader('Access-Control-Allow-Origin', '*');
 		var tid = req.body.tid;
 		console.log(req.ip + ' : ClearRecords : ' + tid);
 		if (!tid)
@@ -60,6 +64,8 @@ exports.ClearRecords = function(Team, Teammate) {
 
 exports.ProblemSolve = function(Team, Problem) {
 	return function(req, res) {
+		res.setHeader('Last-Modified', (new Date()).toUTCString());
+		res.setHeader('Access-Control-Allow-Origin', '*');
 		var tid = req.body.tid;
 		var pid = req.body.pid;
 		if (!tid || !pid)
@@ -96,6 +102,8 @@ exports.ProblemSolve = function(Team, Problem) {
 
 exports.ProblemDisplayed = function(Team, Problem) {
 	return function(req, res) {
+		res.setHeader('Last-Modified', (new Date()).toUTCString());
+		res.setHeader('Access-Control-Allow-Origin', '*');
 		var data = req.body;
 		console.log(req.ip + ' : ProblemDisplayed');
 		console.log(data);
@@ -132,6 +140,8 @@ exports.ProblemDisplayed = function(Team, Problem) {
 
 exports.AchievementUnlock = function(Team, Achievement) {
 	return function(req, res) {
+		res.setHeader('Last-Modified', (new Date()).toUTCString());
+		res.setHeader('Access-Control-Allow-Origin', '*');
 		var tid = req.body.tid;
 		var aid = req.body.aid;
 		if (!aid || !tid)
@@ -169,6 +179,8 @@ exports.AchievementUnlock = function(Team, Achievement) {
 
 exports.AchievementDisplayed = function(Team, Achievement) {
 	return function(req, res) {
+		res.setHeader('Last-Modified', (new Date()).toUTCString());
+		res.setHeader('Access-Control-Allow-Origin', '*');
 		var data = req.body;
 		console.log(req.ip + ' : AchievementDisplayed');
 		console.log(data);
