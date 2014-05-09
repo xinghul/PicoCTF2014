@@ -1,4 +1,4 @@
-### How to run the backend application:
+### How to run the backend application
 #### Step 1 : Install Node.js, npm, mongodb.(I assume you know how to do it)
 #### Step 2 : Install node modules:
       cd PicoCTF2014/
