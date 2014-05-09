@@ -11,9 +11,20 @@
 
 
 ### 3. How to add/remove teams/problems/achievements:
-- Add new problem : http://xxx.xxx.xxx.xxx:3000/newproblem
-- Add new team : http://xxx.xxx.xxx.xxx:3000/newproblem
-- Add new achievement : http://xxx.xxx.xxx.xxx:3000/newachievement
+#### Team :
+- Add team : http://xxx.xxx.xxx.xxx:3000/newteam
+- Remove team : http://xxx.xxx.xxx.xxx:3000/removeteam?tid=?
+- Team list : http://xxx.xxx.xxx.xxx:3000/teamlist
 
-*(note that it's NOT a auto-incrementing field for problem id/team id/achievement id, The reason is that I think you might not want the ids to be sequential and somehow use as a unique username. So you might have to specify the id and dublicate ids are not allowed.)*
+#### Problem :
+- Add problem : http://xxx.xxx.xxx.xxx:3000/newproblem
+- Remove problem : http://xxx.xxx.xxx.xxx:3000/removeproblem?pid=?
+- Problem list : http://xxx.xxx.xxx.xxx:3000/problemlist
+
+#### Achievement : 
+- Add achievement : http://xxx.xxx.xxx.xxx:3000/newachievement
+- Remove achievement : http://xxx.xxx.xxx.xxx:3000/removeachievement?aid=?
+- Achievement list : http://xxx.xxx.xxx.xxx:3000/achievementlist
+
+*(note that it's NOT a auto-incrementing field for problem id/team id/achievement id, The reason is that I think you might not want the ids to be sequential and somehow use it as a unique username. So you might have to specify the id and dublicate ids are not allowed.)*
 
