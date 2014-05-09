@@ -17,7 +17,7 @@
 
 #### Update team information : 
 
-using POST instead of GET.
+using POST instead of GET, see *client.js* for instance.
 
 - Problem solved : http://xxx.xxx.xxx.xxx:3000/problemsolved
 - Achievement unlocked : http://xxx.xxx.xxx.xxx:3000/achievementunlocked
