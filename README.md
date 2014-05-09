@@ -8,13 +8,18 @@
       node app.js
       
 ### 2. In-game queries
+- Get 
 
 
 ### 3. How to add/remove teams/problems/achievements:
+
+*(note that xxx.xxx.xxx.xxx refers to host ip.)*
+
 #### Team :
 - Add team : http://xxx.xxx.xxx.xxx:3000/newteam
 - Remove team : http://xxx.xxx.xxx.xxx:3000/removeteam?tid=?
 - Team list : http://xxx.xxx.xxx.xxx:3000/teamlist
+- Clear team records : http://xxx.xxx.xxx.xxx:3000/clearrecords?tid=?
 
 #### Problem :
 - Add problem : http://xxx.xxx.xxx.xxx:3000/newproblem
