@@ -8,13 +8,23 @@
       node app.js
       
 ### 2. In-game queries
+
+*(note that xxx.xxx.xxx.xxx refers to host ip.)*
+#### Get information : 
 - Get team info : http://xxx.xxx.xxx.xxx:3000/team?tid=?
 - Get problem info : http://xxx.xxx.xxx.xxx:3000/problem?pid=?
 - Get achievement info : http://xxx.xxx.xxx.xxx:3000/achievement?aid=?
 
-### 3. How to add/remove teams/problems/achievements:
+#### Update team information : 
 
-*(note that xxx.xxx.xxx.xxx refers to host ip.)*
+using POST instead of GET.
+
+- Problem solved : http://xxx.xxx.xxx.xxx:3000/problemsolved
+- Achievement unlocked : http://xxx.xxx.xxx.xxx:3000/achievementunlocked
+- Problem displayed : http://xxx.xxx.xxx.xxx:3000/problemdisplayed
+- Achievement displayed : http://xxx.xxx.xxx.xxx:3000/achievementdisplayed
+
+### 3. How to add/remove teams/problems/achievements:
 
 #### Team :
 - Add team : http://xxx.xxx.xxx.xxx:3000/newteam
