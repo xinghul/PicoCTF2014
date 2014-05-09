@@ -49,6 +49,31 @@ exports.AddAchievement = function(Achievement) {
 	};
 };
 
+exports.RemoveAchievement = function(Achievement) {
+	return function(req, res) {
+		res.setHeader('Last-Modified', (new Date()).toUTCString());
+		res.setHeader('Access-Control-Allow-Origin', '*');
+		var aid = req.query.aid;
+		console.log(req.ip + ' : RemoveAchievement : ' + aid);
+		if (!aid)
+			res.send({success : 0, msg : "Please specify the aid for the achievement."});
+		else {
+			Achievement.remove({aid : aid}, function (err, achievement) {
+				if (!err)
+				{
+					console.log('Success.');
+					res.send({success : 1, msg : "Successfully removed achievement " + aid + "."});
+				}
+				else 
+				{
+					console.log('Fail.');
+					res.send({success : 0, msg : "Error occurs while removing the achievement."});
+				}
+			});
+		}
+	};
+};
+
 
 exports.ShowAchievements = function(Achievement) {
 	return function(req, res) {

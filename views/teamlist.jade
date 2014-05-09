@@ -1,0 +1,11 @@
+extends layout
+
+block content
+	h1= title
+	ul
+		each team, i in teamlist
+			li
+				a(href="http://localhost:3000/team?tid=" + team.tid)
+					span= team.tid 
+					| &nbsp
+					span= team.name

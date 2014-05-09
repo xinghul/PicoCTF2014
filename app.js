@@ -62,22 +62,28 @@ app.get('/achievement', achievement.GetAchievement(Achievement));
 
 app.post('/problemsolved', team.ProblemSolve(Team, Problem));
 app.post('/achievementunlocked', team.AchievementUnlock(Team, Achievement));
-app.post('/clearrecords', team.ClearRecords(Team, Teammate));
+app.post('/problemdisplayed', team.ProblemDisplayed(Team, Problem));
+app.post('/achievementdisplayed', team.AchievementDisplayed(Team, Achievement));
+app.get('/clearrecords', team.ClearRecords(Team, Teammate));
 
 app.get('/newproblem', routes.newproblem);
 app.get('/problemlist', problem.ShowProblems(Problem));
 app.post('/addproblem', problem.AddProblem(Problem));
 app.get('/removeproblem', problem.RemoveProblem(Problem));
 
+app.get('/newteam', routes.newteam);
+app.get('/teamlist', team.ShowTeams(Team));
+app.post('/addteam', team.AddTeam(Team));
+app.get('/removeteam', team.RemoveTeam(Team));
+
 app.get('/newachievement', routes.newachievement);
 app.get('/achievementlist', achievement.ShowAchievements(Achievement));
 app.post('/addachievement', achievement.AddAchievement(Achievement));
+app.get('/removeachievement', achievement.RemoveAchievement(Achievement));
 
 app.get('/getsession', session.GetSession(Session));
 app.post('/updatesession', session.UpdateSession(Session));
 
-app.post('/problemdisplayed', team.ProblemDisplayed(Team, Problem));
-app.post('/achievementdisplayed', team.AchievementDisplayed(Team, Achievement));
 
 http.createServer(app).listen(app.get('port'), function(){
 	console.log('PicoCTF server listening on port ' + app.get('port'));

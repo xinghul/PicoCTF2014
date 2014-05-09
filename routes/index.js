@@ -15,3 +15,7 @@ exports.newproblem = function(req, res) {
 exports.newachievement = function(req, res) {
 	res.render('newachievement', { title : 'Add New Achievement'});
 };
+
+exports.newteam = function(req, res) {
+	res.render('newteam', { title : 'Add New Team'});
+};

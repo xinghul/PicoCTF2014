@@ -1,0 +1,10 @@
+extends layout
+
+block content
+	h1= title
+	form#formAddUser(name="addteam", method="post", action="/addteam")
+		input#inputTid(type="text", placeholder="tid", name="tid")
+		br
+		input#inputName(type="text", placeholder="name", name="name")
+		br
+		button#btnSubmit(type="Submit") Add

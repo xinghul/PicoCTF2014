@@ -2,7 +2,7 @@ extends layout
 
 block content
 	h1= title
-	form#formAddUser(name="addproblem", method="post", action="/addproblem")
+	form#formAddProblem(name="addproblem", method="post", action="/addproblem")
 		input#inputPid(type="text", placeholder="pid", name="pid")
 		br
 		input#inputName(type="text", placeholder="type", name="type")

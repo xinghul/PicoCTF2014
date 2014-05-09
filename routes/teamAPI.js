@@ -21,11 +21,82 @@ exports.GetTeam = function(Team) {
 	};
 };
 
-exports.ClearRecords = function(Team, Teammate) {
+exports.AddTeam = function(Team) {
 	return function(req, res) {
 		res.setHeader('Last-Modified', (new Date()).toUTCString());
 		res.setHeader('Access-Control-Allow-Origin', '*');
 		var tid = req.body.tid;
+		var name = req.body.name;
+		Team.findOne({tid : tid}, function (err, team) {
+			if (err | team != null) {
+				res.send({success : 0, msg : "Team already exists."});
+				return;
+			}
+			Team.create({
+				'tid' : tid,
+				'name' : name,
+				'teammates' : [],
+				'problemsolved' : [],
+				'achievements' : [],
+				'points' : 0
+			}, function(err, doc) {
+				if (err) {
+					console.log(err);
+					res.send({success : 0, msg : "Error occurs when adding the team to database"});
+					return;
+				} else {
+					res.location('teamlist');
+					res.redirect('teamlist');
+				}
+			});
+		});
+	};
+};
+
+exports.RemoveTeam = function(Team) {
+	return function(req, res) {
+		res.setHeader('Last-Modified', (new Date()).toUTCString());
+		res.setHeader('Access-Control-Allow-Origin', '*');
+		var tid = req.query.tid;
+		console.log(req.ip + ' : RemoveTeam : ' + tid);
+		if (!tid)
+			res.send({success : 0, msg : "Please specify the tid for the team."});
+		else {
+			Team.remove({tid : tid}, function (err, team) {
+				if (!err)
+				{
+					console.log('Success.');
+					res.send({success : 1, msg : "Successfully removed team " + tid + "."});
+				}
+				else 
+				{
+					console.log('Fail.');
+					res.send({success : 0, msg : "Error occurs while removing the team."});
+				}
+			});
+		}
+	};
+};
+
+
+exports.ShowTeams = function(Team) {
+	return function(req, res) {
+		res.setHeader('Last-Modified', (new Date()).toUTCString());
+		res.setHeader('Access-Control-Allow-Origin', '*');
+		Team.find({}, {}, function(e, teams) {
+			res.render('teamlist', {
+				'title' : 'Team List',
+				'teamlist' : teams
+			});
+		});
+	};
+};
+
+exports.ClearRecords = function(Team, Teammate) {
+	return function(req, res) {
+		res.setHeader('Last-Modified', (new Date()).toUTCString());
+		res.setHeader('Access-Control-Allow-Origin', '*');
+		var tid = req.query.tid;
 		console.log(req.ip + ' : ClearRecords : ' + tid);
 		if (!tid)
 			res.send({success : 0, msg : "Please specify the tid for the team."});

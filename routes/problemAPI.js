@@ -41,7 +41,7 @@ exports.RemoveProblem = function(Problem) {
 				else 
 				{
 					console.log('Fail.');
-					res.send({success : 0, msg : "Error occurs while removing the problem info."});
+					res.send({success : 0, msg : "Error occurs while removing the problem."});
 				}
 			});
 		}
