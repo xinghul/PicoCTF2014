@@ -8,8 +8,9 @@
       node app.js
       
 ### 2. In-game queries
-- Get 
-
+- Get team info : http://xxx.xxx.xxx.xxx:3000/team?tid=?
+- Get problem info : http://xxx.xxx.xxx.xxx:3000/problem?pid=?
+- Get achievement info : http://xxx.xxx.xxx.xxx:3000/achievement?aid=?
 
 ### 3. How to add/remove teams/problems/achievements:
 
