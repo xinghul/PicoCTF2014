@@ -24,7 +24,7 @@ using POST instead of GET, see *client.js* for instance.
 - Problem displayed : http://xxx.xxx.xxx.xxx:3000/problemdisplayed
 - Achievement displayed : http://xxx.xxx.xxx.xxx:3000/achievementdisplayed
 
-### 3. How to add/remove teams/problems/achievements:
+### 3. Add/Remove teams/problems/achievements:
 
 #### Team :
 - Add team : http://xxx.xxx.xxx.xxx:3000/newteam
