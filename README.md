@@ -1,4 +1,5 @@
-### How to run the backend application
+#PicoCTF2014 Backend
+### 1. How to run the backend application
 #### Step 1 : Install Node.js, npm, mongodb.(I assume you know how to do it)
 #### Step 2 : Install node modules:
       cd PicoCTF2014/
@@ -6,7 +7,10 @@
 #### Step 3 : Run the application
       node app.js
       
-### How to add new teams/problems/achievements:
+### 2. In-game queries
+
+
+### 3. How to add/remove teams/problems/achievements:
 - Add new problem : http://xxx.xxx.xxx.xxx:3000/newproblem
 - Add new team : http://xxx.xxx.xxx.xxx:3000/newproblem
 - Add new achievement : http://xxx.xxx.xxx.xxx:3000/newachievement
